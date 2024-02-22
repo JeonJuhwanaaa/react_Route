@@ -48,9 +48,9 @@ function SideBar() {
                 {isShow ? <FaCaretLeft /> : <FaCaretRight />}
             </button>
 
-            <ul>
+            <ul css={S.menuList}>
                 {menus.map(menu => 
-                    <Link to={menu.path} key={menu.id}>
+                    <Link css={S.menuItem} to={menu.path} key={menu.id} onClick={() => setShow(false)}>
                         <li>{menu.name}</li>
                     </Link>)
                 }
