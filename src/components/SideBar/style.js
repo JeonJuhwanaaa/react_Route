@@ -8,11 +8,13 @@ export const layout = (isShow) => css`
     
     left: ${isShow ? "0px" : "-300px"};
 
+    z-index: 99;
+
     border-right: 1px solid #dbdbdb;
     width: 300px;
     height: 100%;
 
-    transition: left 0.5s ease-in-out;
+    transition: left 0.2s ease-in-out;
     background-color: white;
     box-shadow: 1px 0px 2px #00000022;
 `;
