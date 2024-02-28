@@ -7,6 +7,13 @@ import { storage } from '../../configs/firebase/firebaseConfig';
 import { Line } from 'rc-progress';
 import { v4 as uuid } from "uuid";
 
+
+// npm i firebase
+// npm i dotenv
+// env에 getStorage 추가
+// npm i rc-progress
+// npm i uuid
+
 const layout = css`
     display: flex;
     flex-direction: column;
@@ -39,14 +46,16 @@ function ImageEx() {
     const [ uploadFiles, setUploadFiles ] = useState([]);
     const [previews, setPreviews] = useState([]);
     const [progressPercent, setProgressPercent] = useState("");
-    
+
     // Ref: 연쇄 작용
     const imgFileRef = useRef();
 
-    // 비어있으면 [](빈 값) 값이 있다면 
+    // 비어있으면 [](빈 값) 값이 있다면 최초 시작할 때 한번만 렌더링
+    // 없다면 페이지 모든 상태가 변화할 때마다 계속 렌더링
+    // 특정 값이 있다면 그 값이 변할 때마다 렌더링
     useEffect(() => {
         setUrls(!localStorage.getItem("urls") ? [] : JSON.parse(localStorage.getItem("urls")));
-    },[]);
+    },[]);  
 
     const handleImgBring = (e) => {
         
