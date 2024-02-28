@@ -59,3 +59,14 @@ function BoardEx() {
 }
 
 export default BoardEx;
+
+// react Quill 검색
+// 공식사이트 -> https://quilljs.com/
+
+// 1. npm i react-quill 설치
+// 2. index.html 에 <link
+//     rel="stylesheet"
+//     href="https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css"
+//   /> 넣기
+// 3. import ReactQuill from "react-quill";
+
