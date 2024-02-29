@@ -8,5 +8,4 @@ export function useQuillInput() {
     }
 
     return [ quillValue, onChange];
-
 }

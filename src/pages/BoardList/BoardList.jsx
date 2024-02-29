@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
-import { useLoadList } from '../../hooks/boardListHook';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useLoadList, useLoadListByPageNumber } from '../../hooks/boardListHook';
 
 
 const layout = css`
@@ -9,7 +9,6 @@ const layout = css`
     flex-direction: column;
     align-items: center;
     padding: 100px;
-
 `;
 
 const headerTitle = css`
@@ -41,7 +40,6 @@ const boardListHeader = css`
         height: 40px;
         font-weight: 700;
         cursor: pointer;
-
     }
 
     & > div:nth-of-type(1) {
@@ -49,7 +47,6 @@ const boardListHeader = css`
         border-right: 1px solid #dbdbdb;
         width: 80px;
     }
-
 `;
 
 const boardListItem = css`
@@ -85,9 +82,36 @@ const boardListItem = css`
     }
 `;
 
+const pageNumberLayout = (page) => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
+    & > a {
+        box-sizing: border-box;
+        border: 1px solid #dbdbdb;
+        padding: 3px;
+        margin: 0px 3px;
+        text-decoration: none;
+        color: #222;
+        font-weight: 700;
+
+        &:nth-of-type(${page === 1 ? 1 : page % 5 === 0 ? 8 : (page % 5) + 3}) {
+            background-color: #eee;
+        }
+    }
+`;
+
 function BoardList() {
 
-    const { boardList } = useLoadList();
+    const [searchParams] = useSearchParams();
+    const page = parseInt(searchParams.get("page"));
+
+    console.log(page);
+
+    // boardListHook 에서 매개변수 가져와서 사용하기
+    const { boardList, pageNumbers, totalPageCount, startPageNumber } = useLoadListByPageNumber(page);
 
     return (
         <div css={layout} >
@@ -106,6 +130,17 @@ function BoardList() {
                     </Link>
                 )}
             </ul>
+            <div css={pageNumberLayout(page)}>
+                {page !== 1 && <Link to={`/board/list?page=${1}`}>처음으로</Link>}
+                {page !== 1 && <Link to={`/board/list?page=${ page < 6 ? 1 : startPageNumber -1 }`}>&#171;</Link>}
+                {page !== 1 && <Link to={`/board/list?page=${page - 1}`}>&#60;</Link>}
+                {pageNumbers.map(pageNumber => 
+                    <Link to={`/board/list?page=${pageNumber}`}>{ pageNumber }</Link>
+                )}
+                {page !== totalPageCount && <Link to={`/board/list?page=${page + 1}`}>&#62;</Link>}
+                {page !== totalPageCount && <Link to={`/board/list?page=${startPageNumber + 5}`}>&#187;</Link>}
+                {page !== totalPageCount && <Link to={`/board/list?page=${totalPageCount}`}>마지막으로</Link>}
+            </div>
         </div>
     );
 }
